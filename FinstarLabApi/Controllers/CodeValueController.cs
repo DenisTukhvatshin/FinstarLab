@@ -21,7 +21,7 @@ namespace FinstarLab.Api.Controllers
             _codeValueQuery = codeValueQuery;
         }
 
-        [HttpPost("codeValue/create")]
+        [HttpPost("Create")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateAsync(CodeValueCreateRequest codeValueRequest, CancellationToken cancellationToken)
@@ -30,12 +30,20 @@ namespace FinstarLab.Api.Controllers
             return Ok();
         }
 
-        [HttpPost("codeValue/get")]
+        [HttpPost("Get")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CodeValuesResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetAsync(CodeValueGetRequest codeValueGetRequest, CancellationToken cancellationToken)
         {
             return Ok(await _codeValueQuery.GetAsync(codeValueGetRequest, cancellationToken));
+        }
+
+        [HttpGet("GetAll")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken)
+        {
+            return Ok(await _codeValueQuery.GetAsync(new CodeValueGetRequest(), cancellationToken));
         }
     }
 }

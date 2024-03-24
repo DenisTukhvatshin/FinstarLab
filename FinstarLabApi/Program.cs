@@ -11,7 +11,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCommands();
 builder.Services.AddQueries();
 builder.Services.AddDbPostgreSql(builder.Configuration);
-
+builder.Services.AddCors((s) =>
+{
+    s.AddPolicy("corsPolicy", p =>
+    {
+        p.AllowAnyOrigin();
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,7 +28,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("corsPolicy");
 app.UseAuthorization();
 
 app.MapControllers();
